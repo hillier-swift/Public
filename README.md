@@ -1,2 +1,2 @@
-# Public
-Used for Examples for https://hillier-swift.co.uk
+# Examples
+This is used for examples for https://hillier-swift.co.uk
