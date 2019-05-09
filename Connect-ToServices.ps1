@@ -176,7 +176,7 @@ function Connect-OnPremExchange
         try 
             {
                 Write-Host "Creating On-Prem Exchange Connection" -ForegroundColor green
-                $OnPremExchange = New-PSSession -ConfigurationName Microsoft.Exchange -ConnectionUri $script:ExchangeonPremURI -Credential $script:OnPremCred 
+                $OnPremExchange = New-PSSession -ConfigurationName Microsoft.Exchange -ConnectionUri $script:ExchangeonPremURI -Credential $script:OnPremCreds
                 Import-PSSession $OnPremExchange -Prefix $script:ExchangeOnPremPrefix   
             }
         catch
@@ -273,7 +273,7 @@ if ($ExchangeOnline)
             Connect-ExchangeOnline
             Write-Verbose "$(Get-Date) - $(split-path $PScommandPath -leaf) Connected to $Service with $UserPrincipalName"
             $EventMessage = "$(Get-Date) - $(split-path $PScommandPath -leaf) - Connected to $Service"
-            $script:ConnectedServices += $EventMessage
+            $script:ConnectedServices += $EventMessage + "`r`n"
         }
         catch {
             $EventMessage ="$(Get-Date) - $(split-path $PScommandPath -leaf) - something went wrong connecting to $service. ". " + $_.Exception.Message"
@@ -289,7 +289,7 @@ if ($MSOL)
             Connect-MSOL
             Write-Verbose "$(Get-Date) - $(split-path $PScommandPath -leaf) Connected to $Service"
             $EventMessage = "$(Get-Date) - $(split-path $PScommandPath -leaf) - Connected to $Service"
-            $script:ConnectedServices += $EventMessage
+            $script:ConnectedServices += $EventMessage + "`r`n"
         }
         catch {
             $EventMessage ="$(Get-Date) - $(split-path $PScommandPath -leaf) - something went wrong connecting to $Service. ". " + $_.Exception.Message"
@@ -306,7 +306,7 @@ if ($AzureAD)
             Connect-AzureActiveDirectory
             Write-Verbose "$(Get-Date) - $(split-path $PScommandPath -leaf) Connected to $Service"
             $EventMessage = "$(Get-Date) - $(split-path $PScommandPath -leaf) - Connected to $Service"
-            $script:ConnectedServices += $EventMessage
+            $script:ConnectedServices += $EventMessage + "`r`n"
         }
         catch {
             $EventMessage ="$(Get-Date) - $(split-path $PScommandPath -leaf) - something went wrong connecting to $Service. ". " + $_.Exception.Message"
@@ -323,7 +323,7 @@ If($OnPremExchange)
             Connect-OnPremExchange
             Write-Verbose "$(Get-Date) - $(split-path $PScommandPath -leaf) Connected to $Service"
             $EventMessage = "$(Get-Date) - $(split-path $PScommandPath -leaf) - Connected to $Service"
-            $script:ConnectedServices += $EventMessage
+            $script:ConnectedServices += $EventMessage + "`r`n"
         }
         catch {
             $EventMessage ="$(Get-Date) - $(split-path $PScommandPath -leaf) - something went wrong connecting to $Service. ". " + $_.Exception.Message"
@@ -339,7 +339,7 @@ If($OnPremLync)
             Connect-OnPremLync
             Write-Verbose "$(Get-Date) - $(split-path $PScommandPath -leaf) Connected to $Service"
             $EventMessage = "$(Get-Date) - $(split-path $PScommandPath -leaf) - Connected to $Service"
-            $script:ConnectedServices += $EventMessage
+            $script:ConnectedServices += $EventMessage + "`r`n"
         }
         catch {
             $EventMessage ="$(Get-Date) - $(split-path $PScommandPath -leaf) - something went wrong connecting to $Service. ". " + $_.Exception.Message"
@@ -355,7 +355,7 @@ If($SkypeOnline)
         Connect-SkypeOnline
         Write-Verbose "$(Get-Date) - $(split-path $PScommandPath -leaf) Connected to $Service"
         $EventMessage = "$(Get-Date) - $(split-path $PScommandPath -leaf) - Connected to $Service"
-        $script:ConnectedServices += $EventMessage
+        $script:ConnectedServices += $EventMessage + "`r`n"
     }
     catch {
         $EventMessage ="$(Get-Date) - $(split-path $PScommandPath -leaf) - something went wrong connecting to $Service. ". " + $_.Exception.Message"
@@ -370,7 +370,7 @@ if($TeamsOnline)
         Connect-Teams
         Write-Verbose "$(Get-Date) - $(split-path $PScommandPath -leaf) Connected to $Service"
         $EventMessage = "$(Get-Date) - $(split-path $PScommandPath -leaf) - Connected to $Service"
-        $script:ConnectedServices += $EventMessage
+        $script:ConnectedServices += $EventMessage + "`r`n"
     }
     catch {
         $EventMessage ="$(Get-Date) - $(split-path $PScommandPath -leaf) - something went wrong connecting to $Service. ". " + $_.Exception.Message"
