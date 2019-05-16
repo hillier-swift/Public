@@ -87,17 +87,15 @@ function Get-Creds {
     [string]$Username = $env:USERNAME
     )
         #Build Vars needed for connection
-        if ($upn) 
+        if ($upn)
         {
             $script:UserPrincipalName = $Username + $script:Emaildomain
-            $answer = Read-Host -Prompt "Is $UserPrincipalName your email to be used for this connection [y/n]"
+            $answer = Read-Host -Prompt "Is $script:UserPrincipalName your email to be used for this connection [y/n]"
                 if ($answer -notmatch "[yY]")
-                { 
+                {
                     $script:UserPrincipalName = Read-Host "Please provide the email address used for this connection"
-                    Write-Host $UserPrincipalName
-                    
-                }  
-            Write-Host "$UserPrincipalName is being used as the email address for these connections" -ForegroundColor Green
+                }
+            Write-Host "$script:UserPrincipalName is being used as the email address for these connections" -ForegroundColor Green
             [switch]$script:UPNSet = $true
         }
        if($onPrem)
@@ -116,7 +114,7 @@ function Connect-ExchangeOnline
             {
                 Write-Host "Creating Exchange Online Connection - Have your MFA device ready" -ForegroundColor green
                 Import-Module $EXOLModule\CreateExoPSSession.ps1 -Force
-                Connect-EXOPSSession -UserPrincipalName $UserPrincipalName    
+                Connect-EXOPSSession -UserPrincipalName $script:UserPrincipalName 
             }
         catch
             {
@@ -152,7 +150,7 @@ function Connect-AzureActiveDirectory {
         try
             {
                 Write-Host -ForegroundColor Yellow "Currently Password passthrough not supported for MFA"
-                Connect-AzureAD -AccountId $UserPrincipalName 
+                Connect-AzureAD -AccountId $script:UserPrincipalName
             }
         catch
             {
@@ -225,7 +223,7 @@ function Connect-SkypeOnline
             {
                 Write-Host "Creating Skype for Business Online Connection" -ForegroundColor green
                 Import-Module SkypeOnlineConnector
-                $CSSession = New-CsOnlineSession -OverrideAdminDomain $script:SfBOnlineAdminOverride -UserName $UserPrincipalName -verbose
+                $CSSession = New-CsOnlineSession -OverrideAdminDomain $script:SfBOnlineAdminOverride -UserName $script:UserPrincipalName -verbose
                 Import-PSSession $CSSession -AllowClobber -prefix $script:SfBOnlinePrefix 
             }
         catch
@@ -248,7 +246,7 @@ function Connect-Teams
         try 
             {
                 Write-Host "Creating Microsoft Teams Connection" -ForegroundColor green
-                Connect-MicrosoftTeams -AccountId $upn
+                Connect-MicrosoftTeams -AccountId $script:UserPrincipalName
             }
         catch
             {
